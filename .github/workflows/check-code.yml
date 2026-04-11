@@ -1,0 +1,12 @@
+name: Validacion Basica
+on: [push, pull_request]
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test de archivos
+        run: |
+          echo "Verificando que los archivos existan..."
+          ls -R
