@@ -1,12 +1,37 @@
-name: Validacion Basica
-on: [push, pull_request]
+name: Pipeline CI-CD Evaluacion 2
+
+on:
+  push:
+    [cite_start]branches: [ main, develop ] # Trazabilidad desde el desarrollo 
 
 jobs:
-  revisar:
+  calidad-y-seguridad:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Test de archivos
+      - uses: actions/checkout@v4
+
+      # IE2: Simulación de pruebas automatizadas 
+      - name: Pruebas de Integridad HTML
         run: |
-          echo "Verificando que los archivos existan..."
-          ls -R
+          ls login.html
+          ls profile.html
+
+      # IE3: Análisis de seguridad (Uso de Snyk) [cite: 29]
+      - name: Escaneo de Seguridad con Snyk
+        uses: snyk/actions/node@master
+        [cite_start]continue-on-error: false # IE3: Bloqueo si falla la seguridad 
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  despliegue:
+    needs: calidad-y-seguridad
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # IE4: Despliegue automático en entorno simulado 
+      - name: Build Docker Image
+        run: docker build -t mi-web-app:latest .
+
+      - name: Simular Despliegue en Cloud
+        run: echo "Desplegando exitosamente en entorno cloud simulado..."

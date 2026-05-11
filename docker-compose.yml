@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  web-frontend:
+    build: .
+    ports:
+      - "8080:80"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 128m
+    restart: always      

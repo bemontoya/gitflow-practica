@@ -29,4 +29,12 @@ Se utilizarán prefijos para identificar cada cambio:
 ## Automatización
 Se ha configurado un **Github Action** básico para validar la integridad del repositorio en cada subida de código (Push) o apertura de Pull Request a las ramas principales.
 
+## Pipeline CI/CD y Trazabilidad
+Cada vez que se hace un push a develop o main el
+pipeline se activa automáticamente.
+
+El pipeline incluye un paso de seguridad que bloquea el despliegue si hay vulnerabilidades.
+
+El uso de docker garantiza que la aplicación se comporte igual en desarrollo que en producción.
+
 
