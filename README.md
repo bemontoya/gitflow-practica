@@ -37,4 +37,6 @@ El pipeline incluye un paso de seguridad que bloquea el despliegue si hay vulner
 
 El uso de docker garantiza que la aplicación se comporte igual en desarrollo que en producción.
 
+Se agregó el token
+
 
