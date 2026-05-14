@@ -2,9 +2,12 @@ name: Pipeline CI-CD Evaluacion 2
 
 on:
   push:
-    branches: [ main, develop ]
+    branches:
+      - main
+      - develop
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   calidad-y-seguridad:
@@ -19,10 +22,12 @@ jobs:
           node-version: '18'
 
       - name: Instalar dependencias
-        run: npm install || echo "No hay dependencias para instalar"
+        run: |
+          npm install || echo "No hay dependencias"
 
       - name: Ejecutar pruebas unitarias
-        run: npm test
+        run: |
+          npm test
 
       - name: Escaneo de Seguridad (Snyk)
         uses: snyk/actions/node@master
@@ -33,7 +38,3 @@ jobs:
       - name: Construir imagen Docker
         run: |
           docker build -t mi-microservicio:latest .
-          echo "Imagen construida exitosamente"
-
-      - name: Simulacion de Despliegue Cloud
-        run: echo "Desplegando en entorno de prueba automatizado..."
