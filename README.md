@@ -54,6 +54,11 @@ Gracias a Github Actions se nos puede permitir automatizar flujos de trabajo de 
 directamente desde nuestro repositorio, eliminanndo la necesidad de usar plataformas externas
 de integración y Entrega continuas (CI/CD) al compilar, probar e implementar código.
 
+---
+
+## Declaración uso de IA
+Se usó Gemini para ayudar en la estructura técnica y connfiguración de los arcivos YAML y Docker.
+
 
 
 
