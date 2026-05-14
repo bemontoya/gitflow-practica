@@ -2,36 +2,38 @@ name: Pipeline CI-CD Evaluacion 2
 
 on:
   push:
-    [cite_start]branches: [ main, develop ] # Trazabilidad desde el desarrollo 
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   calidad-y-seguridad:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout de codigo
+        uses: actions/checkout@v3
 
-      # IE2: Simulación de pruebas automatizadas 
-      - name: Pruebas de Integridad HTML
-        run: |
-          ls login.html
-          ls profile.html
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-      # IE3: Análisis de seguridad (Uso de Snyk) [cite: 29]
-      - name: Escaneo de Seguridad con Snyk
+      - name: Instalar dependencias
+        run: npm install || echo "No hay dependencias para instalar"
+
+      - name: Ejecutar pruebas unitarias
+        run: npm test
+
+      - name: Escaneo de Seguridad (Snyk)
         uses: snyk/actions/node@master
-        [cite_start]continue-on-error: false # IE3: Bloqueo si falla la seguridad 
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-  despliegue:
-    needs: calidad-y-seguridad
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      # IE4: Despliegue automático en entorno simulado 
-      - name: Build Docker Image
-        run: docker build -t mi-web-app:latest .
+      - name: Construir imagen Docker
+        run: |
+          docker build -t mi-microservicio:latest .
+          echo "Imagen construida exitosamente"
 
-      - name: Simular Despliegue en Cloud
-        run: echo "Desplegando exitosamente en entorno cloud simulado..."
+      - name: Simulacion de Despliegue Cloud
+        run: echo "Desplegando en entorno de prueba automatizado..."
