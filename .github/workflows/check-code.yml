@@ -1,25 +1,19 @@
-name: Pipeline CI-CD
+name: Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build-and-test:
+  test-and-build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Tests
-        run: npm test
-
-      - name: Docker Build
-        run: docker build -t microservicio:latest .
+      - uses: actions/checkout@v3
+      - name: Instalar y Probar
+        run: |
+          npm install
+          npm test
+      - name: Build Docker
+        run: docker build -t mi-app .
